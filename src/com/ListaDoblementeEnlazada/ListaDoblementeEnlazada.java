@@ -10,16 +10,19 @@ public class ListaDoblementeEnlazada {
         }
 
         public Node getListaInicio() {
-            return lista;
+            return this.lista;
         }
 
         public boolean haySiguiente() {
-            return lista != null;
+            return this.lista != null;
         }
 
         public Node proximoNodo() {
-            Node aux = lista;
-            lista = lista.getSiguiente();
+            if (this.lista == null) {
+                return null;
+            }
+            Node aux = this.lista;
+            this.lista = this.lista.getSiguiente();
             posicion++;
             return aux;
         }
@@ -86,20 +89,31 @@ public class ListaDoblementeEnlazada {
                 }
             }
         }
+        Node aux = iter.proximoNodo();
+        if(aux !=null&&(aux.getDato().equals(db))){
+            if (aux == inicio){
+                this.inicio = null;
+                this.fin = null;
+
+            }
+        }
     }
 
     public Object L_recuperar(int pos) {
         Iterador iter = new Iterador();
         iter.setLista(inicio);
 
-        for (int i = 0; i < pos; i++) {
+        for (int i = 1; i < pos; i++) {
             if (iter.haySiguiente()) {
                 iter.proximoNodo();
-            } else {
+            }
+            else if (iter.proximoNodo()!=null && (i+1 ==pos)){
+                return iter.getListaInicio().getDato();
+            }
+            else {
                 return null;
             }
         }
-
         return iter.getListaInicio().getDato();
     }
 
@@ -108,8 +122,7 @@ public class ListaDoblementeEnlazada {
         iter.setLista(inicio);
         Node j_nodo = new Node();
         j_nodo.setDato(j);
-
-        if (pos == 0) {
+        if (pos == 1) {
             j_nodo.setSiguiente(inicio);
             if (inicio != null) {
                 inicio.setAnterior(j_nodo);
@@ -117,23 +130,38 @@ public class ListaDoblementeEnlazada {
             inicio = j_nodo;
             return;
         }
-
         Node aux = inicio;
-
-        for (int i = 0; i < pos - 1; i++) {
+        for (int i = 1; i < pos; i++) {
             if (iter.haySiguiente()) {
                 aux = iter.proximoNodo();
-            } else {
+            }
+   //         else if(i+1 == pos){
+   //             aux = iter.proximoNodo();
+   //         }
+            else {
                 System.out.println("La lista no posee la posición: " + pos);
                 return;
             }
         }
-
         j_nodo.setSiguiente(aux.getSiguiente());
         j_nodo.setAnterior(aux);
         if (aux.getSiguiente() != null) {
-            aux.getSiguiente().setAnterior(j_nodo);
-        }
+            aux.getSiguiente().setAnterior(j_nodo);}
         aux.setSiguiente(j_nodo);
     }
+
+    public void l_mostrarListaD() {
+        Node currentNode = inicio;
+        if (inicio==null){
+            System.out.println("Lista Vacia");
+            return;
+        }
+        System.out.print("ListaD: ");
+        while (currentNode != null) {
+            System.out.print(currentNode.getDato() + "   ");
+            currentNode = currentNode.getSiguiente();
+        }
+        System.out.println();
+    }
+
 }

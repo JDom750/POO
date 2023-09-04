@@ -11,41 +11,30 @@ public class List {
         public void setLista(Node lista) {
             this.lista = lista;
         }
-
-        public Node getListaInicio(){
-            return lista;
+        public Node getLista(){
+            return this.lista;
         }
 
         public boolean haySiguiente(){
-            return lista.getSiguiente()!=null;
+            return this.lista.getSiguiente()!=null;
         }
 
         public Node proximoNodo(){
-            Node aux = new Node();
-            aux = lista;
+            Node aux = this.lista;
             this.lista = lista.getSiguiente();
-            posicion++;
+            this.posicion++;
             return aux;
         }
-
-        public int getPosicion(){
-            return posicion;
-        }
-
-
     }
 
     private Node inicio = null;
 
-    public Node L_Crear(){
-        return inicio;
-    }
     public boolean L_esVacio(){
         return this.inicio == null;
     }
     public int L_longitud() {
         int i = 0;
-        Node currentNode = inicio;
+        Node currentNode = this.inicio;
 
         while (currentNode != null) {
             i++;
@@ -57,19 +46,22 @@ public class List {
 
 
     public void L_agregar(Object d){
-        Node nuevoNodo = new Node();
-        nuevoNodo.setDatos(d);
-        if (inicio == null){
-            this.inicio = nuevoNodo;
-        }
-        else{
-            this.inicio.setSiguiente(nuevoNodo);
+        Node a = new Node();
+        a.setDatos(d);
+        if (this.inicio==null){
+            this.inicio=a;
+        }else{
+            Node aux = this.inicio;
+            while (aux.getSiguiente() != null){
+                aux = aux.getSiguiente();
+            }
+            aux.setSiguiente(a);
         }
     }
 
     public void L_eliminar(Object db) {
         Iterador iter = new Iterador();
-        iter.setLista(inicio);
+        iter.setLista(this.inicio);
 
         // Handle the case where the first node(s) match the data
         while (inicio != null && inicio.getDatos().equals(db)) {
@@ -86,18 +78,31 @@ public class List {
                 prevNode = currentNode;  // Move to the next node only if the current one is not removed
             }
         }
+        Node aux = iter.getLista();
+        if (iter.proximoNodo() !=null && prevNode !=null){
+            if (aux.getDatos().equals(db)){
+                prevNode.setSiguiente(null);
+            }
+        }
     }
 
     public Object L_recuperar(int pos){
         Iterador iter = new Iterador();
-        iter.setLista(inicio);
+        iter.setLista(this.inicio);
         Node r_aux = new Node();
-        for (int i = 0; i<pos;i++){
-            if (iter.haySiguiente()){
-                r_aux = iter.proximoNodo();
-            }
-            else{
-                return null;
+        if (this.inicio ==null){
+            return null;
+        }
+        else {
+            for (int i = 0; i < pos; i++) {
+                if (iter.haySiguiente()) {
+                    r_aux = iter.proximoNodo();
+                }else if (i==pos-1){
+                    r_aux= iter.proximoNodo();
+                }
+                else {
+                    return null;
+                }
             }
         }
         return r_aux.getDatos();
@@ -105,22 +110,39 @@ public class List {
 
     public void l_insertar(int pos, Object j){
         Iterador iter = new Iterador();
-        iter.setLista(inicio);
+        iter.setLista(this.inicio);
         Node j_nodo = new Node();
         j_nodo.setDatos(j);
-        Node aux = new Node();
-        aux = inicio;
+        Node aux = this.inicio;
         for (int i=0;i<pos-1;i++){
             if(iter.haySiguiente()){
                 aux = iter.proximoNodo();
             }
             else {
-                System.out.println("La liste no posee la posicion: " + pos);
+                System.out.println("La liste no posee la posicion: " + pos + " se insertara en la posicion " + (i + 1));
                 break;
             }
         }
         j_nodo.setSiguiente(aux.getSiguiente());
         aux.setSiguiente(j_nodo);
+    }
+
+    public void l_mostrar(){
+        Iterador iter = new Iterador();
+        iter.setLista(this.inicio);
+        if (inicio == null){
+            System.out.println("La lista esta vacia");
+            return;
+        }else {
+            int i = 1;
+            while (iter.haySiguiente()) {
+                Node aux = iter.proximoNodo();
+                System.out.println("Nodo " + i + " : " + aux.getDatos());
+                i++;
+            }
+            System.out.println("Nodo "+ i+" : "+ iter.getLista().getDatos());
+
+        }
     }
 }
 
