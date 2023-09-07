@@ -38,7 +38,7 @@ public class TareasManager {
 
     public void mostrarTareasNoVencidasOrdenadas() {
         Tareas[] tareasNoVencidas = Arrays.stream(listaTareas.getLista_tareas())
-                .filter(tarea -> !tarea.getFecha_Limite().isBefore(LocalDate.now()))
+                .filter(tarea -> tarea != null && !tarea.getFecha_Limite().isBefore(LocalDate.now()))
                 .toArray(Tareas[]::new);
 
         Arrays.sort(tareasNoVencidas, Comparator.comparingInt(Tareas::getPrioridad)
@@ -47,13 +47,16 @@ public class TareasManager {
         System.out.println("Tareas no vencidas ordenadas por prioridad y fecha:");
         for (int i = 0; i < tareasNoVencidas.length; i++) {
             Tareas tarea = tareasNoVencidas[i];
-            System.out.println("Tarea " + (i + 1) + ":");
-            System.out.println("Descripción: " + tarea.getDescripcion());
-            System.out.println("Prioridad: " + tarea.getPrioridad());
-            System.out.println("Estado: " + tarea.getEstado());
-            System.out.println("Fecha Límite: " + tarea.getFecha_Limite());
-            System.out.println("----------------------");
+            if (tarea != null) {
+                System.out.println("Tarea " + (i + 1) + ":");
+                System.out.println("Descripción: " + tarea.getDescripcion());
+                System.out.println("Prioridad: " + tarea.getPrioridad());
+                System.out.println("Estado: " + tarea.getEstado());
+                System.out.println("Fecha Límite: " + tarea.getFecha_Limite());
+                System.out.println("----------------------");
+            }
         }
     }
+
 }
 

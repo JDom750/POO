@@ -3,8 +3,8 @@ package com.Parte_Juego;
 public class Main {
     public static void main(String[] args) {
         // Creamos los Jugadores
-        Jugador J1 = new Jugador("Luciano");
-        Jugador J2 = new Jugador("Agustin");
+        Jugador J1 = new Jugador("Joaquin");
+        Jugador J2 = new Jugador("Martin");
 
         // Le asignamos una palabra
         J1.Agregar_Palabra_Valida("Viaje");
