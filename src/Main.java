@@ -1,5 +1,6 @@
 import com.Cola.Cola;
 import Lista.List;
+import com.Parte_Juego.Jugador;
 import com.Tareas.*;
 import com.ListaDoblementeEnlazada.*;
 import java.sql.SQLOutput;
@@ -188,6 +189,10 @@ public class Main {
 
         // Check if the list is empty after operations
         System.out.println("Is the list empty? " + lista.L_esVacio());
+
+        System.out.println();
+        System.out.println();
+
 
     }
     }
